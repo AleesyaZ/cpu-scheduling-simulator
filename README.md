@@ -2,7 +2,7 @@
 
 A web-based Mini Operating System simulator that demonstrates how different CPU scheduling algorithms work. This project was developed for the **CSN4224 Operating System** course.
 
-**🔗 Live Demo:** [View the Simulator Here](https://AleesyaZ.github.io/cpu-scheduling-simulator/)
+**🔗 Live Demo:** [View the Simulator Here](https://aleesyaz.github.io/cpu-scheduling-simulator/)
 
 ## Features
 *   **Dynamic Input:** Add between 3 to 10 processes dynamically.
