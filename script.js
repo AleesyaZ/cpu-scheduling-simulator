@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 class Process {
     constructor(id, arrivalTime, burstTime, priority) {
         this.id = id;                     
@@ -397,4 +398,3 @@ window.onload = function() {
     generateTable();
     toggleQuantumField();
 };
-
