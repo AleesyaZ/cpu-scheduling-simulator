@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 class Process {
     constructor(id, arrivalTime, burstTime, priority) {
         this.id = id;                     
@@ -393,7 +392,7 @@ function toggleQuantumField() {
     }
 }
 
-// generate default table of 5 processes when the page first loads & also call toggleQuantumField
+// generate default table of 5 processes when the page first loads & call toggleQuantumField
 window.onload = function() {
     generateTable();
     toggleQuantumField();
