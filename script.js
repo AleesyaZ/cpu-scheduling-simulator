@@ -65,7 +65,7 @@ function runNonPreemptivePriority(processes) {
 
         if (availableProcesses.length > 0) {
             // sort by priority (smallest integer = highest priority)
-            // if priorities are a tie, we sort by arrival time (FCFS)
+            // if priorities are a tie, sort by arrival time (FCFS)
             availableProcesses.sort((a, b) => {
                 if (a.priority === b.priority) {
                     return a.arrivalTime - b.arrivalTime; 
@@ -158,7 +158,7 @@ function runRoundRobin(processes, quantum) {
             currentProcess.remainingTime -= timeSpent;
             
             // add block to Gantt chart
-            // if the last block in the chart is the same process, just merge them 
+            // if the last block in the chart is the same process, merge them 
             let lastBlock = ganttChart[ganttChart.length - 1];
             if (lastBlock && lastBlock.id === currentProcess.id) {
                 lastBlock.end = currentTime;
@@ -166,8 +166,8 @@ function runRoundRobin(processes, quantum) {
                 ganttChart.push({ id: currentProcess.id, start: startTime, end: currentTime });
             }
             
-            // check if any NEW processes arrived while this process was running
-            // they must be added to the queue BEFORE the current process is put back
+            // check if any NEW processes arrived while the process was running
+            // add the NEW processes to the queue BEFORE the current process is put back
             while (processIndex < n && processes[processIndex].arrivalTime <= currentTime) {
                 readyQueue.push(processes[processIndex]);
                 processIndex++;
@@ -222,13 +222,13 @@ function runPreemptiveSJF(processes) {
     const n = processes.length;
     let prevProcessId = null; 
 
-    // simulate cycle-by-cycle (1 millisecond at a time)
+    // simulate cycle-by-cycle 1 millisecond at a time
     while (completedCount < n) {
         // find all available processes that haven't finished
         let availableProcesses = processes.filter(p => p.arrivalTime <= currentTime && !p.isCompleted);
 
         if (availableProcesses.length > 0) {
-            // sort primarily by remainingTime. If tied, sort by arrivalTime
+            // sort by remainingTime. If tied, sort by arrivalTime
             availableProcesses.sort((a, b) => {
                 if (a.remainingTime === b.remainingTime) {
                     return a.arrivalTime - b.arrivalTime;
@@ -243,17 +243,16 @@ function runPreemptiveSJF(processes) {
                 // new process took over the CPU
                 ganttChart.push({ id: selectedProcess.id, start: currentTime, end: currentTime + 1 });
             } else {
-                // same process is still running, just extend its block
+                // same process is still running, extend its block
                 ganttChart[ganttChart.length - 1].end = currentTime + 1;
             }
 
             prevProcessId = selectedProcess.id;
             
-            // run it for 1 ms
             selectedProcess.remainingTime--;
             currentTime++;
 
-            // check if it finished
+            // check if process finished
             if (selectedProcess.remainingTime === 0) {
                 selectedProcess.isCompleted = true;
                 selectedProcess.completionTime = currentTime;
@@ -285,7 +284,7 @@ function runPreemptiveSJF(processes) {
     };
 }
 
-// --- UI VISUALIZATION FUNCTION ---
+// --- UI FUNCTION ---
 function drawGanttChart(results) {
     const chartContainer = document.getElementById('gantt-chart-container');
     const statsContainer = document.getElementById('stats-container');
@@ -319,7 +318,7 @@ function drawGanttChart(results) {
 }
 
 // ==========================================
-// UI AND HTML CONNECTION CODE
+// UI AND HTML CONNECTION 
 // ==========================================
 
 // 1. function to generate the table rows based on user input
