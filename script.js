@@ -289,7 +289,6 @@ function drawGanttChart(results) {
     const chartContainer = document.getElementById('gantt-chart-container');
     const statsContainer = document.getElementById('stats-container');
     
-    // clear any existing charts 
     chartContainer.innerHTML = '';
     statsContainer.innerHTML = '';
 
@@ -300,21 +299,42 @@ function drawGanttChart(results) {
     results.ganttChart.forEach(block => {
         const blockDiv = document.createElement('div');
         
+        // apply CSS classes
         blockDiv.className = block.id === "Idle" ? 'gantt-block idle-block' : 'gantt-block';
         
-        // calculate how wide block should be
+        // calculate how wide the block should be
         const widthPct = ((block.end - block.start) / totalTime) * 100;
         blockDiv.style.width = widthPct + '%';
         
-        // put Process ID and times inside block
+        // put the Process ID and times inside the block
         blockDiv.innerHTML = `<strong>${block.id}</strong><br><small>${block.start} - ${block.end}</small>`;
         
-        // add block to webpage
+        // hover tooltip for tiny blocks
+        blockDiv.title = `Process: ${block.id} | Start: ${block.start}ms | End: ${block.end}ms`;
+        
+        // add the block to the webpage
         chartContainer.appendChild(blockDiv);
     });
 
-    // display average waiting time text
-    statsContainer.innerHTML = `<h3>Average Waiting Time: ${results.avgWaitingTime.toFixed(2)} ms</h3>`;
+    // 1. display individual waiting times 
+    let statsHTML = `<br><h3>Waiting Time for each Process:</h3>`;
+    statsHTML += `<div class="wt-container">`; 
+    
+    // sort processes by ID 
+    let sortedProcesses = [...results.processes].sort((a, b) => {
+        return parseInt(a.id.substring(1)) - parseInt(b.id.substring(1));
+    });
+
+    // styled box for each process
+    sortedProcesses.forEach(p => {
+        statsHTML += `<div class="wt-box"><strong>${p.id}</strong> <br> ${p.waitingTime} ms</div>`;
+    });
+    statsHTML += `</div>`;
+
+    // 2. display Average Waiting Time
+    statsHTML += `<h3 class="avg-wt">Average Waiting Time: ${results.avgWaitingTime.toFixed(2)} ms</h3>`;
+  
+    statsContainer.innerHTML = statsHTML;
 }
 
 // ==========================================
